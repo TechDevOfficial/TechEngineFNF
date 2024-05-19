@@ -1198,10 +1198,10 @@ class PlayState extends MusicBeatState
 		kadeEngineWatermark.scrollFactor.set();
 		add(kadeEngineWatermark);
 
-		techEngineWatermark = new FlxText(0, FlxG.height + 48, 0, "T.E. " +
+		techEngineWatermark = new FlxText(0, FlxG.height + 45, 0, "T.E. " +
 			MainMenuState.techEngineVer, 16);
 		techEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		techEngineWatermark.y = 700;
+		techEngineWatermark.y = 675;
 		techEngineWatermark.scrollFactor.set();
 		techEngineWatermark.visible = true;
 		add(techEngineWatermark);

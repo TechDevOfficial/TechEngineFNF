@@ -27,13 +27,13 @@ class StoryMenuState extends MusicBeatState
 	static function weekData():Array<Dynamic>
 	{
 		return [
-			['Tutorial'],
-			['Bopeebo', 'Fresh', 'Dad Battle'],
-			['Spookeez', 'South', "Monster"],
-			['Pico', 'Philly Nice', "Blammed"],
-			['Satin Panties', "High", "Milf"],
-			['Cocoa', 'Eggnog', 'Winter Horrorland'],
-			['Senpai', 'Roses', 'Thorns']
+		    ['Tutorial'], //0
+			['Bopeebo', 'Fresh', 'Dad Battle'], //1
+			['Spookeez', 'South', "Monster"], //2
+			['Pico', 'Philly Nice', "Blammed"], //3
+			['Satin Panties', "High", "Milf"], //4
+			['Cocoa', 'Eggnog', 'Winter Horrorland'], //5
+			['Senpai', 'Roses', 'Thorns'] //6
 		];
 	}
 	var curDifficulty:Int = 1;
