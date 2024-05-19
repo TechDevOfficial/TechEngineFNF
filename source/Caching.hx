@@ -61,6 +61,11 @@ class Caching extends MusicBeatState
 
 		FlxG.worldBounds.set(0,0);
 
+		if (FlxG.keys.justPressed.SPACE)
+			{
+				LoadingState.loadAndSwitchState(new TitleState());
+			}
+
 		bitmapData = new Map<String,FlxGraphic>();
 
 		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300,0,"Loading...");
@@ -68,8 +73,8 @@ class Caching extends MusicBeatState
 		text.alignment = FlxTextAlign.CENTER;
 		text.alpha = 0;
 
-		sponsor = new FlxText(FlxG.width / 2, FlxG.height / 2 + 250,0,"T.E. by TechDeveloper");
-		sponsor.size = 34;
+		sponsor = new FlxText(FlxG.width / 2, FlxG.height / 2 + 250,0,"T.E. by TechDeveloper\nPress SPACE to skip");
+		sponsor.size = 30;
 		sponsor.alignment = FlxTextAlign.CENTER;
 
 		kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('KadeEngineLogo'));
@@ -86,6 +91,11 @@ class Caching extends MusicBeatState
 		kadeLogo.alpha = 0;
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
+
+		if (FlxG.keys.justPressed.SPACE)
+			{
+				LoadingState.loadAndSwitchState(new TitleState());
+			}
 
 		#if cpp
 		if (FlxG.save.data.cacheImages)
@@ -107,6 +117,12 @@ class Caching extends MusicBeatState
 			music.push(i);
 		}
 		#end
+
+		if (FlxG.keys.justPressed.SPACE)
+		{
+			loaded = true;
+			FlxG.switchState(new TitleState());
+		}
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
 
@@ -152,9 +168,13 @@ class Caching extends MusicBeatState
 
 	override function update(elapsed) 
 	{
+        if (FlxG.keys.justPressed.SPACE &&!loaded) {
+            loaded = true;
+            FlxG.switchState(new TitleState());
+        }
+
 		super.update(elapsed);
 	}
-
 
 	function cache()
 	{
