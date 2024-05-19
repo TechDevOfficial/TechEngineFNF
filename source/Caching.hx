@@ -38,6 +38,7 @@ class Caching extends MusicBeatState
 	var loaded = false;
 
 	var text:FlxText;
+	var sponsor:FlxText;
 	var kadeLogo:FlxSprite;
 
 	public static var bitmapData:Map<String,FlxGraphic>;
@@ -66,6 +67,10 @@ class Caching extends MusicBeatState
 		text.size = 34;
 		text.alignment = FlxTextAlign.CENTER;
 		text.alpha = 0;
+
+		sponsor = new FlxText(FlxG.width / 2, FlxG.height / 2 + 250,0,"T.E. by TechDeveloper");
+		sponsor.size = 34;
+		sponsor.alignment = FlxTextAlign.CENTER;
 
 		kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('KadeEngineLogo'));
 		kadeLogo.x -= kadeLogo.width / 2;
@@ -112,6 +117,7 @@ class Caching extends MusicBeatState
 
 		add(kadeLogo);
 		add(text);
+		add(sponsor);
 
 		trace('starting caching..');
 		

@@ -96,6 +96,26 @@ class DFJKOption extends Option
 	}
 }
 
+class NoteSplashOption extends Option
+{
+	public function new(desc:String)
+		{
+			super();
+			description = desc;
+		}
+		public override function press():Bool
+		{
+			FlxG.save.data.splash = !FlxG.save.data.splash;
+			display = updateDisplay();
+			return true;
+		}
+		private override function updateDisplay():String
+		{
+			return "Note Splash " + (!FlxG.save.data.splash ? "off" : "on");
+		}
+}
+
+
 class CpuStrums extends Option
 {
 	public function new(desc:String)

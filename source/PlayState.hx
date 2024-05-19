@@ -105,8 +105,6 @@ class PlayState extends MusicBeatState
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
 	public static var inResults:Bool = false;
-	public var cpuControlled:Bool;
-    public var botPlay:Bool;
 
 	public static var noteBools:Array<Bool> = [false, false, false, false];
 
@@ -114,6 +112,7 @@ class PlayState extends MusicBeatState
 
 	var songLength:Float = 0;
 	var kadeEngineWatermark:FlxText;
+	var techEngineWatermark:FlxText;
 
 	#if cpp
 	// Discord RPC variables
@@ -190,6 +189,8 @@ class PlayState extends MusicBeatState
 	public var camSustains:FlxCamera;
 	public var camNotes:FlxCamera;
 
+	private var SplashNote:NoteSplash;
+
 	private var camGame:FlxCamera;
 	public var cannotDie = false;
 
@@ -213,7 +214,9 @@ class PlayState extends MusicBeatState
 
 	var limo:FlxSprite;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
+	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 	var fastCar:FlxSprite;
+	var noteSplashOp:Bool;
 	var songName:FlxText;
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
@@ -290,7 +293,8 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		FlxG.mouse.visible = true;
+
+		FlxG.mouse.visible = false;
 		instance = this;
 
 		if (FlxG.save.data.fpsCap > 290)
@@ -317,6 +321,11 @@ class PlayState extends MusicBeatState
 		PlayStateChangeables.botPlay = FlxG.save.data.botplay;
 		PlayStateChangeables.Optimize = FlxG.save.data.optimize;
 		PlayStateChangeables.zoom = FlxG.save.data.zoom;
+
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		var sploosh = new NoteSplash(100, 100, 0);
+		sploosh.alpha = 0.6;
+		grpNoteSplashes.add(sploosh);
 
 		// pre lowercasing the song name (create)
 		var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
@@ -414,6 +423,11 @@ class PlayState extends MusicBeatState
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial', 'tutorial');
+
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		var sploosh = new NoteSplash(100, 100, 0);
+		sploosh.alpha = 0.6;
+		grpNoteSplashes.add(sploosh);
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
@@ -1024,6 +1038,7 @@ class PlayState extends MusicBeatState
 		doof.finishThing = startCountdown;
 
 		Conductor.songPosition = -5000;
+		noteSplashOp = true;
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
 		strumLine.scrollFactor.set();
@@ -1033,7 +1048,10 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
 		add(strumLineNotes);
-
+		if (FlxG.save.data.splash)	
+			{
+				add(grpNoteSplashes);
+			}
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 		cpuStrums = new FlxTypedGroup<FlxSprite>();
 
@@ -1180,6 +1198,14 @@ class PlayState extends MusicBeatState
 		kadeEngineWatermark.scrollFactor.set();
 		add(kadeEngineWatermark);
 
+		techEngineWatermark = new FlxText(0, FlxG.height + 48, 0, "T.E. " +
+			MainMenuState.techEngineVer, 16);
+		techEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		techEngineWatermark.y = 700;
+		techEngineWatermark.scrollFactor.set();
+		techEngineWatermark.visible = true;
+		add(techEngineWatermark);
+		
 		if (PlayStateChangeables.useDownscroll)
 			kadeEngineWatermark.y = FlxG.height * 0.9 + 45;
 
@@ -1224,6 +1250,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		strumLineNotes.cameras = [camHUD];
+		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
@@ -1236,6 +1263,7 @@ class PlayState extends MusicBeatState
 			songPosBG.cameras = [camHUD];
 			songPosBar.cameras = [camHUD];
 		}
+		techEngineWatermark.cameras = [camHUD];
 		kadeEngineWatermark.cameras = [camHUD];
 		if (loadRep)
 			replayTxt.cameras = [camHUD];
@@ -2318,6 +2346,7 @@ class PlayState extends MusicBeatState
 			{
 				healthBarBG.visible = false;
 				kadeEngineWatermark.visible = false;
+				techEngineWatermark.visible = false;
 				healthBar.visible = false;
 				iconP1.visible = false;
 				iconP2.visible = false;
@@ -2327,6 +2356,7 @@ class PlayState extends MusicBeatState
 			{
 				healthBarBG.visible = true;
 				kadeEngineWatermark.visible = true;
+				techEngineWatermark.visible = true;
 				healthBar.visible = true;
 				iconP1.visible = true;
 				iconP2.visible = true;
@@ -2808,15 +2838,6 @@ class PlayState extends MusicBeatState
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-
-		if (curSong == 'High') 
-			{
-				switch (curBeat)
-				{
-					case 9:
-					  FlxG.camera.shake(0.01, 3);
-				 }
-			}
 
 		if (curSong == 'Fresh')
 		{
@@ -3566,6 +3587,12 @@ class PlayState extends MusicBeatState
 					health += 0.04;
 				if (FlxG.save.data.accuracyMod == 0)
 					totalNotesHit += 1;
+				if (noteSplashOp)
+					{
+						var recycledNote = grpNoteSplashes.recycle(NoteSplash);
+						recycledNote.setupNoteSplash(daNote.x, daNote.y, daNote.noteData);
+						grpNoteSplashes.add(recycledNote);
+					}
 				sicks++;
 		}
 
