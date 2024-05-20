@@ -105,6 +105,7 @@ class PlayState extends MusicBeatState
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
 	public static var inResults:Bool = false;
+	public static var trollPlayer:Bool;
     public var practicetxt:FlxText;
 
 	public static var noteBools:Array<Bool> = [false, false, false, false];
@@ -442,6 +443,15 @@ class PlayState extends MusicBeatState
 	
 
 		TimingStruct.clearTimings();
+
+		if (trollPlayer)
+			{
+				PlayStateChangeables.botPlay = true;
+			}
+			else
+			{
+				PlayStateChangeables.botPlay = false;
+			}
 
 		var currentIndex = 0;
 		for (i in SONG.eventObjects)

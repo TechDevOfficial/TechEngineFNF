@@ -468,7 +468,7 @@ class Judgement extends Option
 		"ms GD: " + HelperFunctions.truncateFloat(90 * Conductor.timeScale, 0) +
 		"ms BD: " + HelperFunctions.truncateFloat(135 * Conductor.timeScale, 0) + 
 		"ms SHT: " + HelperFunctions.truncateFloat(166 * Conductor.timeScale, 0) +
-		"ms TOTAL: " + HelperFunctions.truncateFloat(Conductor.safeZoneOffset,0) + "ms";
+		"ms TOTAL: " + HelperFunctions.truncateFloat(Conductor.safeZoneOffset, 0) + "ms";
 	}
 
 	override function right():Bool {
