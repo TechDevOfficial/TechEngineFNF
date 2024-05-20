@@ -1205,14 +1205,13 @@ class PlayState extends MusicBeatState
 			+ 50, 0,
 			SONG.song
 			+ " - "
-			+ CoolUtil.difficultyFromInt(storyDifficulty)
-			+ (Main.watermarks ? " | KE " + MainMenuState.kadeEngineVer : ""), 16);
+			+ CoolUtil.difficultyFromInt(storyDifficulty);
 		kadeEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 		add(kadeEngineWatermark);
 
-		techEngineWatermark = new FlxText(0, FlxG.height + 45, 0, "T.E. " +
-			MainMenuState.techEngineVer, 16);
+		techEngineWatermark = new FlxText(0, FlxG.height + 45, 0, "Tech Engine (" +
+			"KE 1.6)", 16);
 		techEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		techEngineWatermark.y = 675;
 		techEngineWatermark.scrollFactor.set();
