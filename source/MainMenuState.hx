@@ -40,7 +40,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var nightly:String = "";
 
-	public static var techEngineVer:String = "1.0.9";
+	public static var techEngineVer:String = "1.1.0";
 	public static var kadeEngineVer:String = "1.6.2" + nightly;
 	public static var gameVer:String = "0.2.7.1";
 
@@ -55,6 +55,8 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+
+		openfl.Lib.application.window.title = 'Friday Night Funkin: Tech Engine | Main Menu';
 
 		if (!FlxG.sound.music.playing)
 		{

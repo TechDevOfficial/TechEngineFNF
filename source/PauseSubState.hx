@@ -27,13 +27,15 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Toggle Botplay', 'Remove Botplay', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Practice', 'Toggle Botplay', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
 	var perSongOffset:FlxText;
 	
 	var offsetChanged:Bool = false;
+	public var activedBotplay:Bool;
+	public var practiceActived:Bool; 
 
 	public function new(x:Float, y:Float)
 	{
@@ -138,6 +140,10 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		var songPath = 'assets/data/' + songLowercase + '/';
 
+		if (practiceActived &&FlxG.keys.justPressed.ESCAPE) {
+			FlxG.switchState(new MainMenuState());
+		}
+
 		#if sys
 		if (PlayState.isSM && !PlayState.isStoryMode)
 			songPath = PlayState.pathToSm;
@@ -230,16 +236,35 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.clean();
 					FlxG.resetState();
 
-				case "Toggle Botplay":
-					PlayStateChangeables.botPlay = true;
-					PlayState.instance.botPlayState.visible = true;
-					trace("Botplay toggled: " + PlayStateChangeables.botPlay);
+				case "Practice":
+					practiceActived = !practiceActived;
+					if (!practiceActived)
+					{
+						PlayState.instance.practicetxt.visible = false;
+						PlayState.instance.cannotDie = false;
+					}
+					if (practiceActived)
+					{
+						PlayState.instance.practicetxt.visible = true;
+						PlayState.instance.botPlayState.visible = false;
+						FlxG.save.data.botplay = false;
+						PlayStateChangeables.botPlay = false;
+						PlayState.instance.cannotDie = true;
+					}
 					return;
 
-				case "Remove Botplay":
-					PlayStateChangeables.botPlay = false;
-					PlayState.instance.botPlayState.visible = false;
-					trace("Botplay removed: " + PlayStateChangeables.botPlay);
+				case "Toggle Botplay":
+					activedBotplay = !activedBotplay;
+                    if (activedBotplay &&!practiceActived)
+					{
+						PlayState.instance.botPlayState.visible = true;
+						PlayStateChangeables.botPlay = true;
+					}
+                    if (!activedBotplay)
+					{
+						PlayState.instance.botPlayState.visible = false;
+						PlayStateChangeables.botPlay = false;
+					}
 					return;
 
 				case "Exit to menu":

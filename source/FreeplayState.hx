@@ -167,6 +167,8 @@ class FreeplayState extends MusicBeatState
 		 DiscordClient.changePresence("In the Freeplay Menu", null);
 		 #end
 
+		 openfl.Lib.application.window.title = 'Friday Night Funkin: Tech Engine | Freeplay Menu';
+
 		var isDebug:Bool = false;
 
 		#if debug

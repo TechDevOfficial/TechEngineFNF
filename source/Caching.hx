@@ -170,6 +170,8 @@ class Caching extends MusicBeatState
 	{
         if (FlxG.keys.justPressed.SPACE &&!loaded) {
             loaded = true;
+			calledDone = true;
+			done++;
             FlxG.switchState(new TitleState());
         }
 

@@ -105,6 +105,7 @@ class PlayState extends MusicBeatState
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
 	public static var inResults:Bool = false;
+    public var practicetxt:FlxText;
 
 	public static var noteBools:Array<Bool> = [false, false, false, false];
 
@@ -299,6 +300,8 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.save.data.fpsCap > 290)
 			(cast(Lib.current.getChildAt(0), Main)).setFPSCap(800);
+
+		openfl.Lib.application.window.title = 'Friday Night Funkin: Tech Engine | Playing: ' + SONG.song;
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -1217,7 +1220,7 @@ class PlayState extends MusicBeatState
 
 		scoreTxt.scrollFactor.set();
 
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
 		add(scoreTxt);
 
@@ -1240,6 +1243,15 @@ class PlayState extends MusicBeatState
 		botPlayState.borderQuality = 2;
 		botPlayState.visible = false;
 		add(botPlayState);
+
+		practicetxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 75, healthBarBG.y + (PlayStateChangeables.useDownscroll ? 100 : -100), 0,
+		"PRACTICE", 20);
+	    practicetxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+	    practicetxt.scrollFactor.set();
+	    practicetxt.borderSize = 4;
+	    practicetxt.borderQuality = 2;
+	    practicetxt.visible = false;
+	    add(practicetxt);
 
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -2229,7 +2241,7 @@ class PlayState extends MusicBeatState
 
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
-	var canPause:Bool = true;
+	public var canPause:Bool = true;
 	var nps:Int = 0;
 	var maxNPS:Int = 0;
 
@@ -2429,6 +2441,14 @@ class PlayState extends MusicBeatState
 		var lengthInPx = scoreTxt.textField.length * scoreTxt.frameHeight; // bad way but does more or less a better job
 
 		scoreTxt.x = (originalX - (lengthInPx / 2)) + 335;
+
+		if (controls.PAUSE && startedCountdown && canPause && cannotDie)
+		{
+			persistentUpdate = false;
+			persistentDraw = true;
+			paused = true;
+			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+		}
 
 		if (controls.PAUSE && startedCountdown && canPause && !cannotDie)
 		{
@@ -2867,6 +2887,11 @@ class PlayState extends MusicBeatState
 					// FlxG.sound.music.stop();
 					// FlxG.switchState(new PlayState());
 			}
+		}
+
+		if (health <= 0 && !cannotDie)
+		{
+			canPause = true;
 		}
 
 		if (health <= 0 && !cannotDie)

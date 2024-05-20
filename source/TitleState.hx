@@ -273,6 +273,8 @@ class TitleState extends MusicBeatState
 			#if !switch
 			NGio.unlockMedal(60960);
 
+			FlxG.save.data.splash = true;
+
 			// If it's Friday according to da clock
 			if (Date.now().getDay() == 5)
 				NGio.unlockMedal(61034);
@@ -317,6 +319,7 @@ class TitleState extends MusicBeatState
 		if (pressedEnter && !skippedIntro && initialized)
 		{
 			skipIntro();
+			FlxG.save.data.splash = true;
 		}
 
 		super.update(elapsed);

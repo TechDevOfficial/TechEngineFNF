@@ -93,6 +93,8 @@ class StoryMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Story Mode Menu", null);
 		#end
 
+		openfl.Lib.application.window.title = 'Friday Night Funkin: Tech Engine | Story Menu';
+
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
