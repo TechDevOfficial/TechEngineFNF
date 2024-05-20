@@ -40,7 +40,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var nightly:String = "";
 
-	public static var techEngineVer:String = "1.0b";
+	public static var techEngineVer:String = "1.0.9";
 	public static var kadeEngineVer:String = "1.6.2" + nightly;
 	public static var gameVer:String = "0.2.7.1";
 
