@@ -222,7 +222,6 @@ class ChartingState extends MusicBeatState
 
 		if (_song.eventObjects.length == 0)
 			_song.eventObjects = [new Song.Event("Init BPM",0,_song.bpm,"BPM Change")];
-		
 
 		trace("goin");
 
@@ -233,6 +232,16 @@ class ChartingState extends MusicBeatState
 			var type = Reflect.field(i,"type");
 			var pos = Reflect.field(i,"position");
 			var value = Reflect.field(i,"value");
+
+			if (type == "Troll Player")
+			{
+				PlayState.instance.trollPlayer = true;
+			}
+
+			if (type == "Destroy Troll")
+			{
+				PlayState.instance.trollPlayer = false;
+			}
 
 			if (type == "BPM Change")
 			{

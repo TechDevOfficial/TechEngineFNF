@@ -45,6 +45,7 @@ class MainMenuState extends MusicBeatState
 	public static var gameVer:String = "0.2.7.1";
 
 	var magenta:FlxSprite;
+	private static var logoBl:FlxSprite;
 	var camFollow:FlxObject;
 	public static var finishedFunnyMove:Bool = false;
 
@@ -89,6 +90,15 @@ class MainMenuState extends MusicBeatState
 		add(magenta);
 		// magenta.scrollFactor.set();
 
+		logoBl = new FlxSprite(-200, 3000); //300
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+		logoBl.setGraphicSize(Std.int(logoBl.width * 0.8));
+		logoBl.antialiasing = FlxG.save.data.antialiasing;
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
+		logoBl.updateHitbox();
+		add(logoBl);
+		logoBl.scale.set(0.4, 0.4);
+
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
@@ -107,7 +117,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.scrollFactor.set();
 			menuItem.antialiasing = FlxG.save.data.antialiasing;
 			if (firstStart)
-				FlxTween.tween(menuItem,{y: 60 + (i * 160)},1 + (i * 0.25) ,{ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) 
+				FlxTween.tween(menuItem,{y: 60 + (i * 160)},1 + (i * 0.25) ,{ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween)
 					{ 
 						finishedFunnyMove = true; 
 						changeItem();
@@ -143,6 +153,13 @@ class MainMenuState extends MusicBeatState
 	}
 
 	var selectedSomethin:Bool = false;
+
+    override function beatHit()
+	{
+		super.beatHit();
+		logoBl.animation.play('bump', true);
+		FlxTween.tween(logoBl, {y: 0}, 1.4, {ease: FlxEase.smoothStepInOut, type: PERSIST, startDelay: 0.8});
+	}
 
 	override function update(elapsed:Float)
 	{
