@@ -1205,8 +1205,7 @@ class PlayState extends MusicBeatState
 			+ 50, 0,
 			SONG.song
 			+ " - "
-			+ CoolUtil.difficultyFromInt(storyDifficulty)
-			+ (Main.watermarks ? " | KE " + MainMenuState.kadeEngineVer : ""), 16);
+			+ CoolUtil.difficultyFromInt(storyDifficulty), 16);
 		kadeEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 		add(kadeEngineWatermark);
@@ -1216,7 +1215,7 @@ class PlayState extends MusicBeatState
 		techEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		techEngineWatermark.y = 675;
 		techEngineWatermark.scrollFactor.set();
-		techEngineWatermark.visible = true;
+		techEngineWatermark.visible = false;
 		add(techEngineWatermark);
 		
 		if (PlayStateChangeables.useDownscroll)
@@ -2450,7 +2449,7 @@ class PlayState extends MusicBeatState
 
 		var lengthInPx = scoreTxt.textField.length * scoreTxt.frameHeight; // bad way but does more or less a better job
 
-		scoreTxt.x = (originalX - (lengthInPx / 2)) + 335;
+		scoreTxt.screenCenter(X);
 
 		if (controls.PAUSE && startedCountdown && canPause && cannotDie)
 		{

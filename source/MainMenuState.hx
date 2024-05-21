@@ -40,7 +40,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var nightly:String = "";
 
-	public static var techEngineVer:String = "1.1.1";
+	public static var techEngineVer:String = "1.1.6";
 	public static var kadeEngineVer:String = "1.6.2" + nightly;
 	public static var gameVer:String = "0.2.7.1";
 
@@ -88,16 +88,7 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = FlxG.save.data.antialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		// magenta.scrollFactor.set();
-
-		logoBl = new FlxSprite(-200, 3000); //300
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-		logoBl.setGraphicSize(Std.int(logoBl.width * 0.8));
-		logoBl.antialiasing = FlxG.save.data.antialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
-		logoBl.updateHitbox();
-		add(logoBl);
-		logoBl.scale.set(0.4, 0.4);
+		// magenta.scrollFactor.set();s
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -153,13 +144,6 @@ class MainMenuState extends MusicBeatState
 	}
 
 	var selectedSomethin:Bool = false;
-
-    override function beatHit()
-	{
-		super.beatHit();
-		logoBl.animation.play('bump', true);
-		FlxTween.tween(logoBl, {y: 0}, 1.4, {ease: FlxEase.smoothStepInOut, type: PERSIST, startDelay: 0.8});
-	}
 
 	override function update(elapsed:Float)
 	{
